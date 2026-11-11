@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 330" role="img" aria-labelledby="title desc">
+  <title id="title">Nimbus</title>
+  <desc id="desc">Nimbus logo on a midnight black banner.</desc>
+  <defs>
+    <radialGradient id="glow" cx=".79" cy=".1" r=".8">
+      <stop offset="0" stop-color="#273039"/>
+      <stop offset="1" stop-color="#080a0c"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="330" rx="28" fill="url(#glow)"/>
+  <rect x="1" y="1" width="1198" height="328" rx="27" fill="none" stroke="#30363a" stroke-width="2"/>
+  <g transform="translate(92 92) scale(1.65)">
+    <rect x="1" y="1" width="78" height="78" rx="19" fill="#121619" stroke="#6f6a5d" stroke-width="2"/>
+    <path d="M23 55V25M57 55V25" fill="none" stroke="#F5F1E8" stroke-width="7" stroke-linecap="round"/>
+    <path d="M23 25 57 55" fill="none" stroke="#C8A878" stroke-width="7" stroke-linecap="round"/>
+  </g>
+  <text x="260" y="180" fill="#F5F1E8" font-family="'DM Sans', 'Segoe UI', sans-serif" font-size="91" font-weight="700" letter-spacing="-5">Nimbus</text>
+  <circle cx="590" cy="173" r="5" fill="#C8A878"/>
+  <text x="264" y="222" fill="#C8A878" font-family="'DM Sans', 'Segoe UI', sans-serif" font-size="16" font-weight="700" letter-spacing="4">YOUR MEDIA. YOUR SPACE.</text>
+  <path d="M905 75v180M961 75v180M1017 75v180M1073 75v180" stroke="#C8A878" stroke-opacity=".1"/>
+  <path d="M850 130h310M850 186h310" stroke="#C8A878" stroke-opacity=".1"/>
+</svg>

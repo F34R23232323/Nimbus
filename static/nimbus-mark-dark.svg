@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" role="img" aria-labelledby="title">
+  <title id="title">Nimbus mark</title>
+  <rect x="1" y="1" width="78" height="78" rx="19" fill="#121619" stroke="#454744" stroke-width="2"/>
+  <path d="M23 55V25" fill="none" stroke="#F5F1E8" stroke-width="7" stroke-linecap="round"/>
+  <path d="M57 55V25" fill="none" stroke="#F5F1E8" stroke-width="7" stroke-linecap="round"/>
+  <path d="M23 25 57 55" fill="none" stroke="#C8A878" stroke-width="7" stroke-linecap="round"/>
+</svg>

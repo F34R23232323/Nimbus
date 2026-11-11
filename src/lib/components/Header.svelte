@@ -39,13 +39,7 @@
 <header class="site-header sticky top-0 z-50">
 	<div class="site-header-inner mx-auto flex items-center gap-4">
 		<a href="/" class="flex items-center gap-3 font-semibold" aria-label={`${site.siteName} home`}>
-			<span
-				class="brand-mark flex h-10 w-10 items-center justify-center transition-transform duration-300 hover:-rotate-6"
-			>
-				<svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
-					<path d="M5 19V5l14 14V5" />
-				</svg>
-			</span>
+			<img src="/nimbus-mark-dark.svg" alt="" width="40" height="40" class="h-10 w-10 transition-transform duration-300 hover:-rotate-6" />
 			<span class="brand-name hidden text-lg font-semibold tracking-tight sm:block">{site.siteName}<span class="text-accent">.</span></span>
 		</a>
 

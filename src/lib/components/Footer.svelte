@@ -14,11 +14,7 @@
 	<div class="mx-auto max-w-[1440px] px-5 py-10 sm:px-8">
 		<div class="flex flex-col items-center justify-between gap-5 sm:flex-row">
 			<div class="flex items-center gap-2 text-sm text-[rgb(var(--fg-muted))]">
-				<span class="flex h-7 w-7 items-center justify-center rounded bg-[rgb(var(--fg))] text-[rgb(var(--bg))]">
-					<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
-						<path d="M5 19V5l14 14V5" />
-					</svg>
-				</span>
+				<img src="/nimbus-mark-dark.svg" alt="" width="28" height="28" class="h-7 w-7" />
 				<span>© {year} {site.siteName}</span>
 				{#if !compact}
 					<span class="hidden text-[rgb(var(--fg-subtle))] sm:inline">·</span>

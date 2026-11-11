@@ -1,292 +1,429 @@
-# Nimbus
+<a id="nimbus"></a>
 
-A self-hosted image & file host built with **SvelteKit + TypeScript**, inspired by [Slink](https://github.com/andrii-kryvoviaz/slink). Nimbus pairs a polished gallery and dashboard with private sharing, collections, nested tags, a built-in **GIF Studio**, URL shortening and a first-class **Discord bot**.
+<div align="center">
 
-Everything runs on your hardware: uploads live on disk, metadata in SQLite, and images/GIFs are processed locally with `sharp` + `gifenc`.
+<img src="static/nimbus-readme-banner.svg" alt="Nimbus — your media, your space" width="100%" />
 
----
+<br />
 
-## Feature tour
+**A private, beautiful home for every image and file you share.**
 
-### Uploads & media
-- Multi-file uploads with parallel workers, per-file progress, drag & drop, retries and copy-ready URLs.
-- Images: PNG, JPG, WEBP, GIF, AVIF, BMP, ICO, SVG, TIFF, HEIC. Plus video, audio, PDF, ZIP and more (configurable).
-- Automatic thumbnails (WebP), animated-frame detection, optional compression and EXIF stripping.
-- Optional extension-style direct links (`/i/<id>.png`) instead of extensionless short links — applies to uploads, the API and the Discord bot. Both styles always resolve.
-- API/ShareX `collection` parameter to drop uploads into a named collection; the bot uses its own configurable upload collection.
-- SHA-256 deduplication per user.
-- Uploads require a signed-in account; new uploads are **private by default** (admins can change the default).
-- API keys and the Discord bot authenticate as a user; per-user storage quotas and total storage tracking.
+[![Node.js 22.6+](https://img.shields.io/badge/Node.js-22.6%2B-1f2428?style=for-the-badge&logo=node.js&logoColor=c8a878)](https://nodejs.org/en/download)
+![SvelteKit](https://img.shields.io/badge/SvelteKit-2-1f2428?style=for-the-badge&logo=svelte&logoColor=c8a878)
+![SQLite](https://img.shields.io/badge/SQLite-local%20storage-1f2428?style=for-the-badge&logo=sqlite&logoColor=c8a878)
+![Self hosted](https://img.shields.io/badge/100%25-self%20hosted-c8a878?style=for-the-badge)
 
-### Sharing & privacy
-- Three visibility modes per file: **Public** (listed in Explore), **Unlisted** (direct links work but hidden from Explore/Fresh), and **Private** (owner only). New uploads default to private, configurable by admins.
-- Password-protected, expiring and view-limited share links with QR codes.
-- Dedicated share landing pages that work without an account.
-- URL shortener with click tracking and custom slugs.
-- Public user profiles (`/u/username`), public collections (`/c/slug`) and per-file pages (`/p/id`).
-- Likes, bookmarks, comments and moderation reports.
+[Explore features](#-everything-in-one-place) · [Quick start](#-quick-start) · [Self-hosting](#-self-hosting) · [API](#-api--integrations)
 
-### Organisation
-- Collections (albums) with covers, descriptions and public/private visibility.
-- Nested tags with colours, search and per-tag filtering.
-- Image grid/list views, search, sort and bulk visibility/delete actions.
-- Notifications for likes and comments.
-- Personal dashboard with activity chart, storage quota and recent shares.
-
-### GIF Studio
-- Turn a single image into an animated loop: zoom, pan, pulse, shake, bounce, wobble or fade.
-- Stitch up to 24 images into a slideshow with crossfades.
-- Tune width, frame delay, colour count, fit mode, background and looping.
-- Generated GIFs are saved to your library with links, Markdown and share buttons.
-
-### Discord bot
-- `/upload` — attach a file, get a direct URL + Markdown (private by default; optional `visibility`).
-- `/gif` — convert a single attachment into a static `.gif` file (no animation).
-- `/share` — create password/expiry-protected links.
-- `/recent`, `/stats`, `/shorten`, `/help`.
-- `/delete` — restricted to members with **Manage Server**.
-- Server install and optional **user install** (DMs, group DMs, other servers). When user install is enabled every command reply is ephemeral.
-- Optional upload announcements in a channel and live online status in the admin dashboard.
-
-### Administration
-- First-run administrator, user approval workflow, ban/role controls and per-user quotas.
-- Instance settings: site name/description, accent colour, registration, upload limits, extensions, default visibility (public/unlisted/private), compression, extension-style links, maintenance mode.
-- Discord bot settings include install modes, announcement channel, and the collection/folder that bot uploads are added to.
-- Moderation queue for reports, audit log, temp password resets and user deletion.
-- API keys for scripts, ShareX and other integrations.
-- Dark/light themes, accent picker, reduced-motion support and responsive layouts.
+</div>
 
 ---
 
-## Tech stack
+> [!NOTE]
+> Nimbus stores originals and thumbnails on your disk and metadata in SQLite. It does not require object storage, an external database, or a hosted image service.
 
-| Layer | Choice |
+## ✦ Everything in one place
+
+Nimbus is an image and file host built with **SvelteKit, TypeScript, SQLite, sharp, and gifenc**. It combines a polished public gallery with a private workspace, precise sharing controls, creative GIF tools, and a Discord bot. The interface defaults to a midnight black theme with a warm gold accent.
+
+### 📸 Upload and media
+
+- Drag and drop multiple files, upload in parallel, see per-file progress, and retry failures.
+- Copy direct, absolute, Markdown, HTML, and BBCode links from upload results.
+- Host images, GIFs, video, audio, PDFs, archives, and other allowed file types.
+- Generate WebP thumbnails and detect animated image frames.
+- Optionally compress images and strip EXIF metadata.
+- Deduplicate uploads by SHA-256 **per user**.
+- Choose extension-style direct links or short extensionless links.
+- Set upload size, file extension, and per-user storage limits.
+- Send API and ShareX uploads directly into a named collection.
+
+### 🔐 Share with control
+
+- Set each file to **public**, **unlisted**, or **private**.
+- Create share pages with passwords, expiry dates, and maximum view counts.
+- Generate QR codes for share links.
+- Give public files dedicated pages and original-file URLs.
+- Create short URLs with custom slugs and click tracking.
+- Share public profiles and curated public collections.
+- Keep newly uploaded files private by default, or change the instance default.
+- Moderate reported files and control registration and account approval.
+
+### 🗂️ Organize your library
+
+- Build collections with covers, descriptions, and visibility controls.
+- Use nested tags with colors and filtered browsing.
+- Switch between image grid and list views.
+- Search, sort, filter, and bulk-change visibility or delete files.
+- Save bookmarks, react with likes, and join comment threads.
+- Track views, uploads, storage use, and recent share activity.
+- Receive notifications for likes and comments.
+
+### 🎞️ Create and automate
+
+- Animate a still image with zoom, pan, pulse, shake, bounce, wobble, or fade.
+- Combine up to 24 images into a GIF slideshow with crossfades.
+- Tune frame delay, width, colors, fit mode, background, and looping.
+- Save generated GIFs directly to your library.
+- Upload and create share links through the Discord bot.
+- Use API keys for scripts, ShareX, and other integrations.
+- Manage users, quotas, moderation, audit history, and bot settings as an admin.
+
+<details>
+<summary><strong>Full Discord command list</strong></summary>
+
+| Command | What it does |
 | --- | --- |
-| App | SvelteKit 2 + Svelte 5 (runes) + TypeScript |
-| Styling | Tailwind CSS + CSS variables |
-| Database | SQLite via `better-sqlite3`, WAL mode |
-| Media | `sharp` for decoding/thumbnails/compression, `gifenc` for GIF encoding |
-| Auth | scrypt password hashing, HTTP-only session cookies, hashed API keys |
-| Bot | `discord.js` v14 |
-| Extras | `qrcode`, `file-type` |
+| `/upload` | Upload an attachment and return a direct URL and Markdown. |
+| `/gif` | Convert a single attachment to a static GIF file. |
+| `/share` | Create a protected or expiring share link. |
+| `/shorten` | Create a tracked short URL. |
+| `/recent` | Show recent uploads. |
+| `/stats` | Show usage statistics. |
+| `/delete` | Delete an upload; requires **Manage Server**. |
+| `/help` | Show available commands. |
 
-No external services, no cloud storage, no telemetry.
+The bot supports server installation and optional user installation for DMs, group DMs, and other servers.
 
----
+</details>
 
-## Quick start
+## ⚡ Quick start
+
+**Requirements:** [Node.js 22.6 or newer](https://nodejs.org/en/download) and npm. Native packages (`better-sqlite3` and `sharp`) need compatible binaries or a local build toolchain.
 
 ```bash
-# 1. Install dependencies
+git clone https://github.com/F34R23232323/Nimbus.git
+cd Nimbus
 npm install
-
-# 2. Copy the example environment file
-cp .env.example .env        # Windows: copy .env.example .env
-
-# 3. Start the dev server (creates the SQLite schema + first admin)
-npm run dev
-
-# 4. Optional: seed demo images, tags and collections
-npm run seed
+cp .env.example .env
 ```
 
-Open <http://localhost:5173>. Uploading requires signing in; the first administrator is created on boot:
+On Windows PowerShell, use `Copy-Item .env.example .env` instead of `cp`. Before the first start, edit `.env` and set a unique `ADMIN_PASSWORD` and your preferred `ORIGIN` / `PUBLIC_URL`.
 
-- **Email:** `admin@nimbus.local`
-- **Password:** `nimbus1234` (change it in **Settings → Security**)
+| Mode | Command | Address |
+| --- | --- | --- |
+| Development | `npm run dev` | `http://localhost:5173` |
+| Production | `npm run build` then `npm run start` | Value of `HOST` and `PORT` in `.env` |
+| Separate web process | `npm run start:web` | Value of `HOST` and `PORT` |
+| Separate bot process | `npm run start:bot` | No HTTP listener |
 
-Override with `ADMIN_EMAIL`, `ADMIN_USERNAME` and `ADMIN_PASSWORD` before the first boot.
+`npm run start` manages the **web server and Discord bot together**. The bot starts when the web health endpoint responds and restarts with backoff if it crashes. Run **one** bot process per token.
 
-### Production
+> [!IMPORTANT]
+> The first boot creates an administrator account. The example credentials are only for local development: `admin@nimbus.local` / `nimbus1234`. Set `ADMIN_EMAIL`, `ADMIN_USERNAME`, and especially `ADMIN_PASSWORD` **before the first boot** of a public instance. Changing those variables later does not reset an existing account; use `npm run reset-password`.
+
+## 🖥️ Self-hosting
+
+All deployment methods need:
+
+1. One writable, persistent `DATA_DIR` for `nimbus.db`, `files/`, and `thumbs/`.
+2. A public HTTPS URL in both `ORIGIN` and `PUBLIC_URL`, with no trailing slash.
+3. A `BODY_SIZE_LIMIT` above your largest permitted upload or GIF request.
+4. A single running Discord bot, if you enable it.
+
+| Platform | Best route | Persistent storage |
+| --- | --- | --- |
+| Linux VPS / bare metal | Node + systemd + Caddy | Local directory |
+| Docker / Compose | Included `Dockerfile` and `compose.yaml` | Named Docker volume |
+| Raspberry Pi 64-bit | Native Node or Compose | Local disk or SSD |
+| Windows | Node + PowerShell / Task Scheduler | Local directory |
+| NAS / home server | Compose in the NAS container UI | Persistent volume |
+| Container PaaS | Included Dockerfile + one persistent disk | Mount at `/app/data` |
+
+<details open>
+<summary><strong>🐳 Docker Compose — quickest production path</strong></summary>
+
+The repository includes a multi-stage [Dockerfile](Dockerfile) and [Compose file](compose.yaml). [Docker Compose](https://docs.docker.com/compose/intro/compose-application-model/) builds the app and starts the web server plus optional bot in one container.
 
 ```bash
+git clone https://github.com/F34R23232323/Nimbus.git
+cd Nimbus
+cp .env.example .env
+```
+
+Edit `.env` before starting:
+
+```dotenv
+ORIGIN=https://images.example.com
+PUBLIC_URL=https://images.example.com
+ADMIN_EMAIL=you@example.com
+ADMIN_USERNAME=admin
+ADMIN_PASSWORD=choose-a-long-unique-password
+BODY_SIZE_LIMIT=256M
+```
+
+Then run:
+
+```bash
+docker compose up -d --build
+docker compose ps
+docker compose logs -f nimbus
+```
+
+Compose binds the app to `127.0.0.1:3000` on the host and keeps data in the `nimbus-data` volume. Set `NIMBUS_PORT` in the host's Compose environment to use another host port. Put a reverse proxy in front for HTTPS:
+
+```caddyfile
+images.example.com {
+    reverse_proxy 127.0.0.1:3000
+}
+```
+
+Replace the domain and point its DNS record at your server. See the [Caddy reverse proxy guide](https://caddyserver.com/docs/quick-starts/reverse-proxy). To expose the container directly on your LAN, change the Compose port binding deliberately; the supplied binding only listens on localhost.
+
+</details>
+
+<details>
+<summary><strong>🐧 Linux VPS or bare metal — Node + systemd</strong></summary>
+
+Install a supported Node.js release and Caddy using their official instructions. Clone Nimbus into a stable directory, build it, and make a separate data directory:
+
+```bash
+sudo git clone https://github.com/F34R23232323/Nimbus.git /opt/nimbus
+sudo useradd --system --home /opt/nimbus --shell /usr/sbin/nologin nimbus
+sudo chown -R nimbus:nimbus /opt/nimbus
+sudo install -d -o nimbus -g nimbus /var/lib/nimbus
+cd /opt/nimbus
+sudo -u nimbus npm install
+sudo -u nimbus cp .env.example .env
+sudo -u nimbus npm run build
+```
+
+Edit `/opt/nimbus/.env` before starting. Set `DATA_DIR=/var/lib/nimbus`, `HOST=127.0.0.1`, `PORT=3000`, your HTTPS `ORIGIN` and `PUBLIC_URL`, and unique admin credentials. Keep the file readable only by the service account.
+
+Create `/etc/systemd/system/nimbus.service`:
+
+```ini
+[Unit]
+Description=Nimbus image host
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=nimbus
+Group=nimbus
+WorkingDirectory=/opt/nimbus
+Environment=NODE_ENV=production
+ExecStart=/usr/bin/node --env-file-if-exists=.env scripts/start.mjs
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
+```
+
+Adjust `ExecStart` if Node is installed elsewhere, then enable the service:
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl enable --now nimbus
+sudo systemctl status nimbus
+sudo journalctl -u nimbus -f
+```
+
+Proxy `images.example.com` to `127.0.0.1:3000` with the Caddyfile above. The `WorkingDirectory` matters because Nimbus resolves relative data paths and the bot from the project root. See the official [systemd service](https://www.freedesktop.org/software/systemd/man/latest/systemd.service.html) and [execution environment](https://www.freedesktop.org/software/systemd/man/latest/systemd.exec.html) references.
+
+</details>
+
+<details>
+<summary><strong>🪟 Windows — PowerShell</strong></summary>
+
+Install Node.js 22.6+ and Git. In PowerShell:
+
+```powershell
+git clone https://github.com/F34R23232323/Nimbus.git C:\Nimbus
+Set-Location C:\Nimbus
+npm install
+Copy-Item .env.example .env
+notepad .env
 npm run build
 npm run start
 ```
 
-`npm run start` launches **both the web server and the Discord bot**. The bot starts after the web server reports healthy and is automatically restarted if it crashes (with backoff). To run them separately, use `npm run start:web` and `npm run start:bot`.
+Set `ADMIN_PASSWORD` before first launch. For a public deployment, set `ORIGIN` and `PUBLIC_URL` to your HTTPS domain, `HOST=127.0.0.1` and `PORT=3000`, then proxy the domain to that port. Keep the project directory writable by the account running Nimbus. For automatic start, configure Windows Task Scheduler to run `node.exe` with arguments `--env-file-if-exists=.env scripts/start.mjs` and **Start in** set to `C:\Nimbus`. The working directory must be correct for the database and bot paths.
 
-Do not keep a second bot process running (for example an old PM2 entry) while using `npm run start` — two gateway connections with the same token will cause duplicate interaction errors.
+</details>
 
-The Node adapter reads `PORT` and `HOST`. Put it behind a reverse proxy (Caddy/nginx) with HTTPS, and set `ORIGIN` / `PUBLIC_URL` to your public URL so links and cookies are correct.
+<details>
+<summary><strong>🍓 Raspberry Pi and ARM64 mini PCs</strong></summary>
 
----
+Use a **64-bit OS** and Node.js 22.6+. The Linux instructions above work on ARM64; a small SSD is preferable for sustained uploads and SQLite writes. If native packages do not have a compatible prebuilt binary, install the local build prerequisites (Python, make, and a C++ compiler) and reinstall dependencies. You can also use the included Compose setup on an ARM64 Docker host.
 
-## Configuration
+For a LAN-only instance, use a LAN `ORIGIN` / `PUBLIC_URL` and bind the port deliberately. For internet access, place Nimbus behind an HTTPS reverse proxy and use the public domain in both URL settings.
 
-Environment variables (`.env`):
+</details>
 
-| Variable | Description |
-| --- | --- |
-| `ORIGIN` / `PUBLIC_URL` | Public URL used in generated links (no trailing slash). |
-| `PORT`, `HOST` | Server bind settings for the production build. |
-| `BODY_SIZE_LIMIT` | Max request body accepted by adapter-node. Defaults to `512K`; set it above your upload/GIF limits (e.g. `256M`). |
-| `DATA_DIR` | Storage root, defaults to `./data` (`nimbus.db`, `files/`, `thumbs/`). |
-| `AUTH_SECRET` | Optional secret for share cookies/HMACs. Generated automatically if unset. |
-| `ADMIN_EMAIL`, `ADMIN_USERNAME`, `ADMIN_PASSWORD` | First-run administrator. |
-| `DISCORD_TOKEN`, `DISCORD_CLIENT_ID`, `DISCORD_GUILD_ID`, `DISCORD_CHANNEL_ID` | Bot overrides (also configurable in the dashboard). |
-| `BOT_SECRET` | Optional override for the bot API secret. |
+<details>
+<summary><strong>🗄️ NAS or container PaaS</strong></summary>
 
-Most runtime settings live in the database and can be edited from **Dashboard → Administration → Instance**.
+On a NAS with Compose support, use the included `compose.yaml`, keep the `nimbus-data` volume persistent, and route your NAS reverse proxy to the host port. On a container platform, build from the included Dockerfile, mount **one persistent disk at `/app/data`**, set `DATA_DIR=/app/data`, and configure `ORIGIN`, `PUBLIC_URL`, `PORT`, and admin credentials in the platform environment.
 
----
+Run one instance unless you intentionally move storage and the bot to an architecture built for multiple replicas. Nimbus uses a local SQLite database and local files; an ephemeral filesystem will lose uploads and metadata.
 
-## Discord bot setup
+</details>
 
-1. Create an application at <https://discord.com/developers/applications> and add a **Bot**.
-2. For DM support, open **Installation** in the developer portal and enable **User Install** (keep **Guild Install** enabled for server use).
-3. Copy the bot token and the application ID into **Administration → Instance → Discord bot**, choose **Server install** and/or **User install (DMs)**, optionally set an **Uploads collection** (created automatically for the bot owner), and save.
-4. Copy the **Bot API secret** from **Administration → Integrations**.
-5. Register commands:
+### Configuration reference
 
-   ```bash
-   npm run bot:register
-   ```
+| Variable | Purpose | Example |
+| --- | --- | --- |
+| `ORIGIN` | Public origin used for cookies and requests | `https://images.example.com` |
+| `PUBLIC_URL` | Public URL for generated links | `https://images.example.com` |
+| `HOST` / `PORT` | Production server bind address and port | `127.0.0.1` / `3000` |
+| `BODY_SIZE_LIMIT` | Maximum accepted request body | `256M` |
+| `DATA_DIR` | SQLite, originals, and thumbnails | `/var/lib/nimbus` |
+| `ADMIN_EMAIL` / `ADMIN_USERNAME` / `ADMIN_PASSWORD` | First-run admin | Set before first boot |
+| `AUTH_SECRET` | Optional session/share signing override | Long random secret |
+| `DISCORD_TOKEN` / `DISCORD_CLIENT_ID` | Bot credentials | From Discord Developer Portal |
+| `DISCORD_GUILD_ID` / `DISCORD_CHANNEL_ID` | Optional bot targets | Discord IDs |
+| `BOT_SECRET` | Optional bot API secret override | Long random secret |
 
-   Run without a guild ID to register globally (may take up to an hour to appear), or set a guild ID for instant registration.
+Most other settings are editable in **Workspace → Administration → Instance**, including registration, default visibility, upload limits, allowed extensions, maintenance mode, and Discord options. [`.env.example`](.env.example) contains the complete environment template.
 
-6. Start the app (web + bot together):
+### Updating and backing up
 
-   ```bash
-   npm run start
-   ```
+```bash
+# Native installation
+git pull
+npm install
+npm run build
+sudo systemctl restart nimbus
 
-   For a separate bot process use `npm run start:bot` (or `npm run bot` during development with `npm run dev`). Do not run a separate bot while `npm run start` is already managing one. The bot reads the database on startup and every minute sends a heartbeat, so the admin dashboard shows whether it is online. If the token changes, restart the app/bot.
+# Docker Compose
+git pull
+docker compose up -d --build
+```
 
-Use the **Server install link** or **User install link (DMs)** shown in **Integrations**. Install mode changes are synced automatically when the bot starts (global commands may take up to an hour to appear). When user install is enabled, command replies are ephemeral everywhere.
+Back up the **entire data directory or Docker volume**: the SQLite database, its WAL files, originals, and thumbnails belong together. Stop the app for a simple consistent file copy. Keep a copy of your `.env` separately. Do not commit `.env`, API keys, or the data directory.
 
----
+## 🤖 Discord bot
 
-## API
+1. Create a bot application in the [Discord Developer Portal](https://discord.com/developers/applications).
+2. Add its token and application ID in **Administration → Instance → Discord bot**, or set `DISCORD_TOKEN` and `DISCORD_CLIENT_ID` in `.env`.
+3. Choose server and/or user installation, optionally set an announcement channel and upload collection, and save.
+4. Register slash commands with `npm run bot:register`.
+5. Start with `npm run start`, or run `npm run start:web` and `npm run start:bot` as separate processes.
 
-Authenticate with `Authorization: Bearer nmb_…` (create keys in **Settings → API keys**) or, for the bot, the `x-bot-secret` header.
+Guild command registration is usually useful while testing; global commands may take time to appear. The bot reads settings from SQLite and reports a heartbeat to the admin dashboard. Do not run a second bot process using the same token.
 
-### Upload
+## 🔌 API & integrations
+
+Create an API key in **Settings → API keys**. Send it in `Authorization: Bearer nmb_…`. The upload API also supports authenticated sessions and the bot secret.
+
+<details>
+<summary><strong>Upload a file with curl</strong></summary>
 
 ```bash
 curl -F "file=@screenshot.png" \
-  -F "visibility=public" \
-  -F "collection=ShareX" \
-  -F "tags=art,wallpaper" \
-  -H "Authorization: Bearer nmb_…" \
-  https://your-host/api/upload
+  -F "visibility=private" \
+  -F "collection=Screenshots" \
+  -F "tags=work,reference" \
+  -H "Authorization: Bearer nmb_your_key" \
+  https://images.example.com/api/upload
 ```
 
-`visibility` accepts `public`, `unlisted` or `private` (defaults to the instance setting). `collection` accepts a collection name and is created automatically if it does not exist. Response includes `url`, `absoluteUrl`, `absoluteThumbUrl`, `markdown`, `html`, `bbcode` and the file record.
+`visibility` accepts `public`, `unlisted`, or `private`. The response includes direct and absolute URLs plus Markdown, HTML, and BBCode snippets.
 
-### ShareX
+</details>
 
-Download a ready-made `.sxcu` from **Settings → API keys → ShareX config**: paste an API key, choose the collection/folder and visibility, then import the file into ShareX. The uploader sends `collection` and `visibility`, so every screenshot lands in the chosen collection.
-
-Manual equivalent:
-
-```json
-{
-  "Version": "17.0.0",
-  "Name": "Nimbus — ShareX",
-  "DestinationType": "ImageUploader, FileUploader",
-  "RequestMethod": "POST",
-  "RequestURL": "https://i.f34rless.dev/api/upload",
-  "Headers": { "Authorization": "Bearer nmb_your_key" },
-  "Body": "MultipartFormData",
-  "FileFormName": "file",
-  "Arguments": { "visibility": "private", "collection": "ShareX" },
-  "ResponseType": "JSON",
-  "URL": "{json:absoluteUrl}",
-  "ThumbnailURL": "{json:absoluteThumbUrl}",
-  "ErrorMessage": "{json:error}"
-}
-```
-
-### GIF
+<details>
+<summary><strong>Generate a GIF</strong></summary>
 
 ```bash
 curl -F "frames=@one.png" -F "frames=@two.png" \
   -F "transition=fade" -F "delay=90" -F "width=480" \
-  -H "Authorization: Bearer nmb_…" \
-  https://your-host/api/gif
+  -H "Authorization: Bearer nmb_your_key" \
+  https://images.example.com/api/gif
 ```
 
-### Shares
+</details>
+
+<details>
+<summary><strong>Create a share link</strong></summary>
 
 ```bash
-curl -X POST https://your-host/api/shares \
-  -H "Authorization: Bearer nmb_…" \
+curl -X POST https://images.example.com/api/shares \
+  -H "Authorization: Bearer nmb_your_key" \
   -H "content-type: application/json" \
   -d '{"fileId":"abc123","password":"secret","expiresInHours":24,"maxViews":50}'
 ```
 
-### Other endpoints
+</details>
 
-| Method | Endpoint | Purpose |
+**ShareX:** In **Settings → API keys → ShareX config**, paste an API key, choose a collection and visibility, download the generated `.sxcu`, and import it into ShareX.
+
+| Method | Endpoint | Use |
 | --- | --- | --- |
-| GET | `/api/public?limit=8` | Recent public uploads |
-| GET | `/api/stats` | Instance statistics and popular tags |
-| PATCH | `/api/files/:id` | Rename, change visibility, tags or add to a collection |
-| DELETE | `/api/files/:id` | Soft-delete a file and revoke its shares |
-| POST | `/api/short` | Create a short link (`{"target":"https://…","slug":"optional"}`) |
-| GET | `/i/:id` | Serve the original file (`?download=1` to download) |
-| GET | `/t/:id` | Serve the WebP thumbnail |
-| GET | `/s/:slug` | Share landing page (password gate when needed) |
-| GET | `/short/:code` | Short-link redirect |
+| `POST` | `/api/upload` | Upload and optionally organize a file |
+| `POST` | `/api/gif` | Generate a GIF |
+| `POST` | `/api/shares` | Create a share |
+| `POST` | `/api/short` | Create a tracked short URL |
+| `PATCH` / `DELETE` | `/api/files/:id` | Update or remove a file |
+| `GET` | `/api/public` / `/api/stats` | Public feed and stats |
+| `GET` | `/api/health` | Database-backed health check |
+| `GET` | `/i/:id` / `/t/:id` | Original / thumbnail |
+| `GET` | `/s/:slug` / `/short/:code` | Share page / short redirect |
 
----
+## 🧱 Architecture
 
-## Project structure
-
+```mermaid
+flowchart LR
+    Browser[Browser / ShareX] --> Web[SvelteKit web app]
+    Discord[Discord] --> Bot[discord.js bot]
+    Bot --> Web
+    Web --> DB[(SQLite)]
+    Web --> Disk[(Originals and thumbnails)]
+    Bot --> DB
 ```
+
+| Layer | Implementation |
+| --- | --- |
+| Frontend and routes | SvelteKit 2, Svelte 5, TypeScript |
+| UI | Tailwind CSS, CSS variables, responsive layouts |
+| Data | SQLite via `better-sqlite3` in WAL mode |
+| Media | `sharp` and `gifenc` |
+| Authentication | scrypt passwords, HTTP-only sessions, hashed API keys |
+| Bot | `discord.js` v14 |
+| Runtime | Node.js 22.6+ |
+
+<details>
+<summary><strong>Project map</strong></summary>
+
+```text
 src/
-  app.css                 Design tokens + component classes
-  hooks.server.ts         Auth, theme, security headers
-  lib/
-    components/           Header, cards, modals, icons, toasts…
-    server/
-      auth.ts             Sessions, API keys, guards
-      collections.ts      Albums
-      crypto.ts           IDs, hashing, HMAC, API keys
-      db.ts               Schema, WAL, first-run admin
-      files.ts            Upload pipeline, listing, comments, likes
-      gif.ts              sharp frame preparation + gifenc encoding
-      media.ts            Type detection, thumbnails, compression
-      settings.ts         Instance settings
-      shares.ts           Share links, passwords, cookies
-      storage.ts          Disk layout + safe paths
-      tags.ts             Nested tags
-    stores/ui.ts          Theme, accent, toasts
-    types.ts              Shared TypeScript types
+  app.css              Theme tokens and component styles
+  lib/components/       Cards, navigation, dialogs, toasts
+  lib/server/           Auth, SQLite, media, storage, shares, tags
   routes/
-    api/                  Upload, GIF, files, shares, short links, public data
-    dashboard/            Overview, images, collections, tags, bookmarks,
-                          links, notifications, GIF studio, settings, admin
-    s/[slug]/             Public share page + raw endpoint
-    i/[id], t/[id]        Original + thumbnail serving
-    p/[id], u/[username], c/[slug]
-                          Public file page, profiles, collections
-bot/index.ts              discord.js bot (reads SQLite + HTTP API)
-scripts/seed.mjs          Demo content generator
+    dashboard/          Library, collections, GIF Studio, admin
+    api/                Upload, GIF, files, shares, stats
+    p/ c/ u/ s/         Public pages and shares
+bot/index.ts            Discord bot
+scripts/                Start, seed, reset-password
+static/                 Brand assets
+Dockerfile              Production container build
+compose.yaml            Single-instance deployment
 ```
 
-Files are stored under `data/files/<shard>/<id>.<ext>` and thumbnails under `data/thumbs/<id>.webp`. Back up the whole `data/` directory.
+</details>
+
+## 🛡️ Security and limits
+
+- Uploading requires a signed-in account or an authenticated API/bot request.
+- Private files and thumbnails are authorization-checked on requests.
+- Sessions use HTTP-only, SameSite cookies; passwords use scrypt with per-user salts.
+- API keys are stored as hashes and shown once.
+- Share cookies are signed and share passwords are hashed.
+- Run the public app behind HTTPS, set `ORIGIN`, keep Node dependencies current, and back up the data volume.
+- Video-to-GIF conversion is **not** included; GIF Studio uses still and animated images.
+- HEIC and TIFF support depends on the installed `sharp` / libvips build.
+- Email-based self-service password reset is not configured; admins can issue a temporary password.
 
 ---
 
-## Security notes
+<div align="center">
 
-- Sessions are HTTP-only, SameSite=Lax cookies; passwords use scrypt with per-user salts.
-- API keys are stored only as SHA-256 hashes and shown once.
-- Share access uses HMAC-signed cookies; passwords are hashed.
-- Private files and thumbnails are authorization-checked on every request.
-- SVGs are served with a sandboxing CSP; all responses set `nosniff`.
-- Cross-site form submissions are rejected via an Origin check; API-key and bot-secret requests are exempt so scripts and ShareX work without a browser Origin header. Run behind HTTPS in production and set `ORIGIN`.
-- Uploaded content is untrusted: deploy behind a reverse proxy, keep dependencies updated, and use the moderation tools.
+**Your media. Your space. Your rules.**
 
----
+[Back to top](#nimbus)
 
-## Notes & limitations
-
-- Video-to-GIF conversion is not included (no FFmpeg dependency); GIF Studio works with images and animated images.
-- HEIC/TIFF support depends on the `sharp`/libvips build installed on your machine.
-- Email delivery is not configured — there is no self-service password reset. Admins can generate a temporary password from **Administration → Users**.
-- The Discord bot uses Node's experimental TypeScript stripping (`node --experimental-strip-types`), supported by Node 22.6+.
-
-PRs and feature ideas are welcome. Built to be forked and made your own.
+</div>
