@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en" class="dark">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" href="%sveltekit.assets%/favicon.svg" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="theme-color" content="#07090b" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		%sveltekit.head%
+		<script>
+			try {
+				if (localStorage.getItem('nimbus:theme-version') !== 'midnight-v1') {
+					localStorage.setItem('nimbus:theme', 'dark');
+					localStorage.setItem('nimbus:theme-version', 'midnight-v1');
+				}
+				var stored = localStorage.getItem('nimbus:theme');
+				var theme = stored || 'dark';
+				document.documentElement.classList.toggle('dark', theme === 'dark');
+				document.documentElement.dataset.theme = theme;
+				var accent = localStorage.getItem('nimbus:accent');
+				if (accent && accent.toLowerCase() !== '#6366f1') {
+					var hex = accent.replace('#', '');
+					if (hex.length === 3) hex = hex.split('').map(function (c) { return c + c; }).join('');
+					if (/^[0-9a-f]{6}$/i.test(hex)) {
+						document.documentElement.style.setProperty(
+							'--accent',
+							parseInt(hex.slice(0, 2), 16) + ' ' + parseInt(hex.slice(2, 4), 16) + ' ' + parseInt(hex.slice(4, 6), 16)
+						);
+					}
+				}
+				if (localStorage.getItem('nimbus:reduced-motion') === '1')
+					document.documentElement.classList.add('reduce-motion');
+			} catch (e) {}
+		</script>
+	</head>
+	<body data-sveltekit-preload-data="hover">
+		<div style="display: contents">%sveltekit.body%</div>
+	</body>
+</html>

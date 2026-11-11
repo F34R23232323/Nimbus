@@ -1,0 +1,46 @@
+{
+  "name": "nimbus",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "A self-hosted image & file host with a polished gallery, sharing tools, GIF studio and Discord bot.",
+  "engines": {
+    "node": ">=22.6"
+  },
+  "scripts": {
+    "dev": "vite dev",
+    "build": "vite build",
+    "preview": "vite preview",
+    "start": "node --env-file-if-exists=.env scripts/start.mjs",
+    "start:web": "node --env-file-if-exists=.env build/index.js",
+    "start:bot": "node --env-file-if-exists=.env --experimental-strip-types bot/index.ts",
+    "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+    "seed": "node --env-file-if-exists=.env scripts/seed.mjs",
+    "reset-password": "node --env-file-if-exists=.env scripts/reset-password.mjs",
+    "bot": "node --env-file-if-exists=.env --experimental-strip-types bot/index.ts",
+    "bot:register": "node --env-file-if-exists=.env --experimental-strip-types bot/index.ts --register"
+  },
+  "devDependencies": {
+    "@sveltejs/adapter-node": "^5.2.12",
+    "@sveltejs/kit": "^2.20.0",
+    "@sveltejs/vite-plugin-svelte": "^5.0.3",
+    "@types/better-sqlite3": "^7.6.12",
+    "@types/node": "^22.13.0",
+    "@types/qrcode": "^1.5.5",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.5.1",
+    "svelte": "^5.19.0",
+    "svelte-check": "^4.1.4",
+    "tailwindcss": "3.4.17",
+    "typescript": "^5.7.3",
+    "vite": "^6.1.0"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.8.1",
+    "discord.js": "^14.18.0",
+    "file-type": "^20.4.1",
+    "gifenc": "^1.0.3",
+    "qrcode": "^1.5.4",
+    "sharp": "^0.33.5"
+  }
+}
