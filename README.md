@@ -13,7 +13,7 @@
 ![SQLite](https://img.shields.io/badge/SQLite-local%20storage-1f2428?style=for-the-badge&logo=sqlite&logoColor=c8a878)
 ![Self hosted](https://img.shields.io/badge/100%25-self%20hosted-c8a878?style=for-the-badge)
 
-[Explore features](#-everything-in-one-place) · [Quick start](#-quick-start) · [Self-hosting](#-self-hosting) · [API](#-api--integrations)
+[Visual tour](#-visual-tour) · [Explore features](#-everything-in-one-place) · [Quick start](#-quick-start) · [Self-hosting](#-self-hosting) · [API](#-api--integrations) · [AI guide](AGENTS.md)
 
 </div>
 
@@ -21,6 +21,115 @@
 
 > [!NOTE]
 > Nimbus stores originals and thumbnails on your disk and metadata in SQLite. It does not require object storage, an external database, or a hosted image service.
+
+## 🖼️ Visual tour
+
+These are actual desktop captures of Nimbus at 1440 pixels wide, made with a disposable local database and the included demo seed. Public screens are anonymous, workspace screens use the demo account, and administration uses a disposable admin account. Every page has its own screenshot; select an image to open it at full size.
+
+<details open>
+<summary><strong>Public entry: home, Explore, sign in and registration</strong></summary>
+
+| Home `/` | Explore `/explore` |
+| --- | --- |
+| [![Nimbus home page](docs/screenshots/home.png)](docs/screenshots/home.png) | [![Explore gallery](docs/screenshots/explore.png)](docs/screenshots/explore.png) |
+
+| Sign in `/login` | Create account `/register` |
+| --- | --- |
+| [![Sign in page](docs/screenshots/login.png)](docs/screenshots/login.png) | [![Registration page](docs/screenshots/register.png)](docs/screenshots/register.png) |
+
+</details>
+
+<details>
+<summary><strong>Public content: file, collection, profile and share</strong></summary>
+
+| Public file `/p/:id` | Public collection `/c/:slug` |
+| --- | --- |
+| [![Public file page](docs/screenshots/public-file.png)](docs/screenshots/public-file.png) | [![Public collection page](docs/screenshots/public-collection.png)](docs/screenshots/public-collection.png) |
+
+| Public profile `/u/:username` | Share `/s/:slug` |
+| --- | --- |
+| [![Public user profile](docs/screenshots/public-profile.png)](docs/screenshots/public-profile.png) | [![Share page with QR code](docs/screenshots/shared-file.png)](docs/screenshots/shared-file.png) |
+
+</details>
+
+<details open>
+<summary><strong>Workspace: overview, image library and file details</strong></summary>
+
+| Overview `/dashboard` | Library `/dashboard/images` |
+| --- | --- |
+| [![Workspace overview](docs/screenshots/dashboard.png)](docs/screenshots/dashboard.png) | [![Personal image library](docs/screenshots/library.png)](docs/screenshots/library.png) |
+
+| File details `/dashboard/images/:id` |
+| --- |
+| [![File details and share management](docs/screenshots/file-detail.png)](docs/screenshots/file-detail.png) |
+
+</details>
+
+<details>
+<summary><strong>Organize: collections, collection details, tags and bookmarks</strong></summary>
+
+| Collections `/dashboard/collections` | Collection details `/dashboard/collections/:id` |
+| --- | --- |
+| [![Collection library](docs/screenshots/collections.png)](docs/screenshots/collections.png) | [![Collection details](docs/screenshots/collection-detail.png)](docs/screenshots/collection-detail.png) |
+
+| Tags `/dashboard/tags` | Bookmarks `/dashboard/bookmarks` |
+| --- | --- |
+| [![Tag management](docs/screenshots/tags.png)](docs/screenshots/tags.png) | [![Bookmarks](docs/screenshots/bookmarks.png)](docs/screenshots/bookmarks.png) |
+
+</details>
+
+<details>
+<summary><strong>Create and follow activity: short links, upload, GIF Studio and notifications</strong></summary>
+
+| Short links `/dashboard/links` | Upload `/dashboard/upload` |
+| --- | --- |
+| [![Tracked short links](docs/screenshots/short-links.png)](docs/screenshots/short-links.png) | [![Multi-file upload page](docs/screenshots/upload.png)](docs/screenshots/upload.png) |
+
+| GIF Studio `/dashboard/gif-studio` | Notifications `/dashboard/notifications` |
+| --- | --- |
+| [![GIF Studio](docs/screenshots/gif-studio.png)](docs/screenshots/gif-studio.png) | [![Notification inbox](docs/screenshots/notifications.png)](docs/screenshots/notifications.png) |
+
+</details>
+
+<details>
+<summary><strong>Settings: profile, security, API keys and appearance</strong></summary>
+
+| Profile | Security |
+| --- | --- |
+| [![Profile settings](docs/screenshots/settings-profile.png)](docs/screenshots/settings-profile.png) | [![Security and session settings](docs/screenshots/settings-security.png)](docs/screenshots/settings-security.png) |
+
+| API keys and ShareX | Appearance |
+| --- | --- |
+| [![API key and ShareX settings](docs/screenshots/settings-api.png)](docs/screenshots/settings-api.png) | [![Appearance settings](docs/screenshots/settings-appearance.png)](docs/screenshots/settings-appearance.png) |
+
+</details>
+
+<details>
+<summary><strong>Administration: users, instance, moderation and integrations</strong></summary>
+
+| Users | Instance |
+| --- | --- |
+| [![User administration](docs/screenshots/admin-users.png)](docs/screenshots/admin-users.png) | [![Instance settings](docs/screenshots/admin-instance.png)](docs/screenshots/admin-instance.png) |
+
+| Moderation | Integrations |
+| --- | --- |
+| [![Moderation reports](docs/screenshots/admin-moderation.png)](docs/screenshots/admin-moderation.png) | [![Discord integrations](docs/screenshots/admin-integrations.png)](docs/screenshots/admin-integrations.png) |
+
+</details>
+
+> [!TIP]
+> Direct originals (`/i/:id`), thumbnails (`/t/:id`), share downloads (`/s/:slug/raw`) and short redirects (`/short/:code`) are HTTP endpoints rather than UI pages. Their surrounding pages are pictured above.
+
+### Pages and controls at a glance
+
+| Area | What you can do |
+| --- | --- |
+| Public pages | Browse recent files, search and filter Explore, visit public profiles and collections, open file pages, use share links. |
+| Library | Search, sort, filter, switch grid/list, bulk-change visibility or delete, edit file details. |
+| Organization | Build nested collections and tags, bookmark files, create tracked short links. |
+| Creation | Upload several files with progress and retry; create animated effects and GIF slideshows. |
+| Account | Edit profile, review sessions, create API keys and ShareX configuration, change appearance. |
+| Administration | Manage users and quotas, instance settings, reports, audit history and Discord integration. |
 
 ## ✦ Everything in one place
 
@@ -385,6 +494,9 @@ flowchart LR
 | Bot | `discord.js` v14 |
 | Runtime | Node.js 22.6+ |
 
+> [!TIP]
+> Working on Nimbus with an AI agent? [AGENTS.md](AGENTS.md) maps every route, storage and security boundary, and the expected Git workflow. Completed changes should be committed with a clear, descriptive message.
+
 <details>
 <summary><strong>Project map</strong></summary>
 
@@ -400,6 +512,8 @@ src/
 bot/index.ts            Discord bot
 scripts/                Start, seed, reset-password
 static/                 Brand assets
+docs/screenshots/        Real UI captures from disposable demo data
+AGENTS.md               Repository guide and instructions for AI agents
 Dockerfile              Production container build
 compose.yaml            Single-instance deployment
 ```
